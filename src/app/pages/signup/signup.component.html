@@ -1,3 +1,124 @@
-<p>
-  signup works!
-</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sign Up</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="main">
+    <h1>E-Sign Gabon</h1>
+    <h3>Enter your sign up credentials</h3>
+
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <!-- First Name -->
+      <label>First Name:</label>
+      <ion-input formControlName="fname" placeholder="Enter your First Name"></ion-input>
+      <div *ngIf="submitted && f['fname'].errors" class="error">
+        <div *ngIf="f['fname'].errors['required']">First Name is required</div>
+        <div *ngIf="f['fname'].errors['pattern']">Invalid First Name</div>
+      </div>
+
+      <!-- Last Name -->
+      <label>Last Name:</label>
+      <ion-input formControlName="lname" placeholder="Enter your Last Name"></ion-input>
+      <div *ngIf="submitted && f['lname'].errors" class="error">
+        <div *ngIf="f['lname'].errors['required']">Last Name is required</div>
+        <div *ngIf="f['lname'].errors['pattern']">Invalid Last Name</div>
+      </div>
+
+      <!-- Email -->
+      <label>Email:</label>
+      <ion-input formControlName="email" type="email" placeholder="Enter your Email"></ion-input>
+      <div *ngIf="submitted && f['email'].errors" class="error">
+        <div *ngIf="f['email'].errors['required']">Email is required</div>
+        <div *ngIf="f['email'].errors['pattern']">Invalid Email</div>
+      </div>
+
+      <!-- Phone -->
+      <label>Phone:</label>
+      <ion-input formControlName="phone" type="tel" maxlength="10" placeholder="Enter your Phone Number"></ion-input>
+      <div *ngIf="submitted && f['phone'].errors" class="error">
+        <div *ngIf="f['phone'].errors['required']">Phone number is required</div>
+        <div *ngIf="f['phone'].errors['pattern']">Invalid Phone Number</div>
+      </div>
+
+      <!-- Gender -->
+      <label>Gender:</label>
+      <ion-radio-group formControlName="gender">
+        <ion-item lines="none">
+          <ion-label>Male</ion-label>
+          <ion-radio slot="start" value="male"></ion-radio>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Female</ion-label>
+          <ion-radio slot="start" value="female"></ion-radio>
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Prefer not to say</ion-label>
+          <ion-radio slot="start" value="any"></ion-radio>
+        </ion-item>
+      </ion-radio-group>
+      <div *ngIf="submitted && f['gender'].errors" class="error">
+        <div>Gender is required</div>
+      </div>
+
+      <!-- Country -->
+      <label>Country:</label>
+      <ion-select placeholder="Select Country" formControlName="country">
+        <ion-select-option *ngFor="let country of countries" [value]="country">{{ country }}</ion-select-option>
+      </ion-select>
+      <div *ngIf="submitted && f['country'].errors" class="error">
+        <div>Please select your country</div>
+      </div>
+
+      <!-- Password -->
+      <label>Password:</label>
+      <div class="password-container">
+        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password"
+          placeholder="Enter Password">
+        <ion-button fill="clear" size="small" (click)="toggleShowPassword()" type="button" slot="end">
+          <ion-icon [name]="showPassword ? 'eye-off' : 'eye'" slot="icon-only" class="button-color"></ion-icon>
+        </ion-button>
+      </ion-input>
+      </div>
+      <div *ngIf="submitted && f['password'].errors" class="error">
+        <div *ngIf="f['password'].errors['required']">Password is required</div>
+        <div *ngIf="f['password'].errors['pattern']">
+          Must contain uppercase, lowercase, number, special char, and 8+ characters
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <label>Confirm Password:</label>
+      <div class="password-container">
+        <ion-input [type]="showConfirmPassword ? 'text' : 'password'" formControlName="confirm"
+          placeholder="Confirm Password">
+        <ion-button fill="clear" size="small" (click)="toggleConfirmPassword()" type="button" slot="end">
+          <ion-icon [name]="showConfirmPassword ? 'eye-off' : 'eye'" slot="icon-only" class="button-color"></ion-icon>
+        </ion-button>
+      </ion-input>
+      </div>
+      <div *ngIf="submitted && f['confirm'].errors" class="error">
+        Please confirm your password
+      </div>
+      <div *ngIf="submitted && signupForm.errors?.['passwordMismatch']" class="error">
+        Passwords don't match
+      </div>
+
+
+      <!-- Terms and Conditions -->
+      <ion-item lines="none" class="tac">
+        <ion-checkbox slot="start" formControlName="tac"></ion-checkbox>
+        <ion-label>I agree to the <a href="#">Terms & Conditions</a></ion-label>
+      </ion-item>
+      <div *ngIf="submitted && f['tac'].errors" class="error">
+        You must accept the terms
+      </div>
+
+      <!-- Submit Button -->
+      <ion-button type="submit" expand="block">Register</ion-button>
+    </form>
+
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+  </div>
+</ion-content>
